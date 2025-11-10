@@ -22,7 +22,7 @@ namespace NotificationCore.Infrastructure.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    SourceId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RecipientId = table.Column<Guid>(type: "uuid", nullable: false),
                     Key = table.Column<string>(type: "text", nullable: false),
                     NoticationBody = table.Column<string>(type: "text", nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
@@ -40,10 +40,10 @@ namespace NotificationCore.Infrastructure.DAL.Migrations
                 column: "Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Notifications_SourceId",
+                name: "IX_Notifications_RecipientId",
                 schema: "forband.notify",
                 table: "Notifications",
-                column: "SourceId");
+                column: "RecipientId");
         }
 
         /// <inheritdoc />

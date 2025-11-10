@@ -47,14 +47,14 @@ namespace NotificationCore.Infrastructure.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("SourceId")
+                    b.Property<Guid>("RecipientId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Id");
 
-                    b.HasIndex("SourceId");
+                    b.HasIndex("RecipientId");
 
                     b.ToTable("Notifications", "forband.notify");
                 });

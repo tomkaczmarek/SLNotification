@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using NotificationCore.Abstractions.Commands;
 using NotificationCore.Abstractions.Consumer;
+using NotificationCore.Abstractions.Queries;
 using NotificationCore.Application.Commands.AddNotification;
 using NotificationCore.Application.Commands.Mailers.SendVerifyTokenMail;
+using NotificationCore.Application.Queries.GetActiveNotifications;
 using NotificationCore.Application.Services;
 using System;
 using System.Collections.Generic;
@@ -19,6 +21,7 @@ namespace NotificationCore.Application
             services.AddSingleton<IMessageConsumer, RabbitMqConsumer>();
             services.AddScoped<ICommandHandler<AddNotificationCommand>, AddNotifactionHandler>();
             services.AddScoped<ICommandHandler<SendVerifyTokenMailCommand>, SendVerifyTokenMailHandler>();
+            services.AddScoped<IQueryHandler<GetActiveNotificationsQuery, List<GetActiveNotificationsResult>>, GetActiveNotificationsHandler>();
             return services;
         }
     }

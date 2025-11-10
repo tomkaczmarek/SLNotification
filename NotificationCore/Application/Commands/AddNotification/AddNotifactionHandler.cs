@@ -21,7 +21,7 @@ namespace NotificationCore.Application.Commands.AddNotification
 
         public async Task<ApiResponse> HandleAsync(AddNotificationCommand command, CancellationToken cancellationToken)
         {
-            var notification = new Notification(command.SourceId, command.Key, command.NoticationBody, command.IsActive);
+            var notification = new Notification(command.RecipientId, command.Key, command.NoticationBody, command.IsActive);
 
             await _notificationRepository.Add(notification, cancellationToken);
 

@@ -38,7 +38,7 @@ namespace NotificationCore.Application.Services
         {
             _connection = await _connectionFactory.CreateConnectionAsync(stoppingToken);
 
-            await _consumer.ConsumeMessage<AddNotificationCommand>(_connection, "AddNewNotificationEvent", stoppingToken);
+            await _consumer.ConsumeMessageWithExchange<AddNotificationCommand>(_connection, "AddNewNotificationEvent", "notificationExchange", "notification.addnew", stoppingToken);
             await _consumer.ConsumeMessage<SendVerifyTokenMailCommand>(_connection, "SendMailTokenVerifyEvent", stoppingToken);
            
             var tcs = new TaskCompletionSource();

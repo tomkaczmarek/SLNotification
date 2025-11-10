@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace NotificationCore.Infrastructure.DAL.Migrations
 {
     [DbContext(typeof(NotificationDbContext))]
-    [Migration("20251025164856_Init")]
+    [Migration("20251105130739_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -50,14 +50,14 @@ namespace NotificationCore.Infrastructure.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("SourceId")
+                    b.Property<Guid>("RecipientId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Id");
 
-                    b.HasIndex("SourceId");
+                    b.HasIndex("RecipientId");
 
                     b.ToTable("Notifications", "forband.notify");
                 });
