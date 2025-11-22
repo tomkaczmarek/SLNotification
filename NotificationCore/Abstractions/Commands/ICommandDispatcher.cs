@@ -9,8 +9,6 @@ namespace NotificationCore.Abstractions.Commands
 {
     public interface ICommandDispatcher
     {
-        Task<ApiResponse> SendAsync<TCommand>(TCommand command, CancellationToken cancellationToken) where TCommand : class, ICommand;
-
-        Task<ApiResponse> SendAsync2(ICommand command, CancellationToken cancellationToken);
+        Task<ApiResponse> SendAsync<TCommand>(TCommand command, CancellationToken cancellationToken) where TCommand : class, ICommand;      
     }
 }

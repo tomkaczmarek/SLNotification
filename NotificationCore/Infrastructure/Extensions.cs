@@ -2,8 +2,10 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NotificationCore.Abstractions.Commands;
+using NotificationCore.Abstractions.Queries;
 using NotificationCore.Abstractions.Repository;
 using NotificationCore.Application;
+using NotificationCore.Domain.Repository;
 using NotificationCore.Infrastructure.DAL;
 using NotificationCore.Infrastructure.DAL.Repositories;
 using NotificationCore.Infrastructure.Dispatchers;
@@ -23,7 +25,10 @@ namespace NotificationCore.Infrastructure
             services.AddMailer();
             services.AddCommands();
             services.AddScoped<ICommandDispatcher, CommandDispatcher>();
+            services.AddScoped<IQueryDispatcher, QuerieDispatcher>();
             services.AddScoped<IWriteNotificationRepository, WriteNotificationRepository>();
+            services.AddScoped<IWriteStatisticRepository, WriteStatisticRepository>();
+            services.AddScoped<IReadNotificationRepository, ReadNotificationRepository>();
             services.AddDbContext<NotificationDbContext>(x => x.UseNpgsql("Host=localhost;Database=ForbandNotification;Username=postgres;Password=12345678",
                               npgsqlOptions => npgsqlOptions.CommandTimeout(120)));
             return services;

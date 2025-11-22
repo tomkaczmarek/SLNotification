@@ -29,19 +29,5 @@ namespace NotificationCore.Infrastructure.Dispatchers
 
             return null;
         }
-
-        public async Task<ApiResponse> SendAsync2(ICommand command, CancellationToken cancellationToken)
-        {
-            if (command == null)
-                return null;
-
-            using var scope = _services.CreateScope();
-            var commandType = command.GetType();
-
-            var handlerType = typeof(ICommandHandler<>).MakeGenericType(commandType);
-            dynamic handler = scope.ServiceProvider.GetRequiredService(handlerType);
-
-            return await handler.HandleAsync((dynamic)command, cancellationToken);
-        }
     }
 }

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace NotificationCore.Infrastructure.DAL.Migrations
 {
     [DbContext(typeof(NotificationDbContext))]
-    [Migration("20251025164856_Init")]
+    [Migration("20251112192830_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -25,6 +25,25 @@ namespace NotificationCore.Infrastructure.DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("NotificationCore.Domain.Entities.LikeStatistic", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<Guid>("SourceId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TargetId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Likes", "statistic");
+                });
 
             modelBuilder.Entity("NotificationCore.Domain.Entities.Notification", b =>
                 {
@@ -50,16 +69,35 @@ namespace NotificationCore.Infrastructure.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("SourceId")
+                    b.Property<Guid>("RecipientId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Id");
 
-                    b.HasIndex("SourceId");
+                    b.HasIndex("RecipientId");
 
                     b.ToTable("Notifications", "forband.notify");
+                });
+
+            modelBuilder.Entity("NotificationCore.Domain.Entities.WatchStatistic", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<Guid>("SourceId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TargetId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Watches", "statistic");
                 });
 #pragma warning restore 612, 618
         }
