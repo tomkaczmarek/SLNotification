@@ -10,5 +10,6 @@ namespace NotificationCore.Application.Queries.GetActiveNotifications
     public class GetActiveNotificationsQuery : IQuery<List<GetActiveNotificationsResult>>
     {
         public Guid RecipientId { get; set; }
+        public int SkipOffset { get; set; }
     }
 }

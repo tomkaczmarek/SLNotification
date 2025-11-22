@@ -13,7 +13,25 @@ namespace NotificationCore.Infrastructure.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
+                name: "statistic");
+
+            migrationBuilder.EnsureSchema(
                 name: "forband.notify");
+
+            migrationBuilder.CreateTable(
+                name: "Likes",
+                schema: "statistic",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    SourceId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TargetId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Likes", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Notifications",
@@ -33,6 +51,21 @@ namespace NotificationCore.Infrastructure.DAL.Migrations
                     table.PrimaryKey("PK_Notifications", x => x.Id);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Watches",
+                schema: "statistic",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    SourceId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TargetId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Watches", x => x.Id);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Notifications_Id",
                 schema: "forband.notify",
@@ -50,8 +83,16 @@ namespace NotificationCore.Infrastructure.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Likes",
+                schema: "statistic");
+
+            migrationBuilder.DropTable(
                 name: "Notifications",
                 schema: "forband.notify");
+
+            migrationBuilder.DropTable(
+                name: "Watches",
+                schema: "statistic");
         }
     }
 }

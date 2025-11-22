@@ -1,6 +1,6 @@
 ﻿using NotificationCore.Abstractions.Queries;
+using NotificationCore.Abstractions.Repository;
 using NotificationCore.Abstractions.Response;
-using NotificationCore.Domain.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +20,7 @@ namespace NotificationCore.Application.Queries.GetActiveNotifications
 
         public async Task<ApiResponse<List<GetActiveNotificationsResult>>> HandleAsync(GetActiveNotificationsQuery query, CancellationToken cancellationToken)
         {
-            var result = await _repository.GetActiveNotifications(query.RecipientId, cancellationToken);
+            var result = await _repository.GetActiveNotifications(query.RecipientId, query.SkipOffset, cancellationToken);
 
             return new ApiResponse<List<GetActiveNotificationsResult>>
             {

@@ -27,6 +27,7 @@ namespace NotificationCore.Infrastructure
             services.AddScoped<ICommandDispatcher, CommandDispatcher>();
             services.AddScoped<IQueryDispatcher, QuerieDispatcher>();
             services.AddScoped<IWriteNotificationRepository, WriteNotificationRepository>();
+            services.AddScoped<IWriteStatisticRepository, WriteStatisticRepository>();
             services.AddScoped<IReadNotificationRepository, ReadNotificationRepository>();
             services.AddDbContext<NotificationDbContext>(x => x.UseNpgsql("Host=localhost;Database=ForbandNotification;Username=postgres;Password=12345678",
                               npgsqlOptions => npgsqlOptions.CommandTimeout(120)));

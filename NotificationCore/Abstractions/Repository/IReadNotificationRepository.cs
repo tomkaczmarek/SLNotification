@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace NotificationCore.Abstractions.Repository
 {
-    public interface IWriteNotificationRepository
+    public interface IReadNotificationRepository
     {
-        Task Add(Notification notification, CancellationToken cancellationToken);
+        Task<List<Notification>> GetActiveNotifications(Guid sourceId, int skipOffset, CancellationToken cancellationToken);
     }
 }

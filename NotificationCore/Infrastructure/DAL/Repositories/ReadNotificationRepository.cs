@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NotificationCore.Abstractions.Repository;
 using NotificationCore.Domain.Entities;
-using NotificationCore.Domain.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,12 +18,14 @@ namespace NotificationCore.Infrastructure.DAL.Repositories
             _context = context;
         }
 
-        public async Task<List<Notification>> GetActiveNotifications(Guid sourceId, CancellationToken cancellationToken)
+        public async Task<List<Notification>> GetActiveNotifications(Guid sourceId, int skipOffset, CancellationToken cancellationToken)
         {
             return await _context.Notifications
                 .AsNoTracking()
                 .Where(x => x.RecipientId == new Domain.ValueObject.GuidId(sourceId))
-                .OrderBy(x => x.CreatedAt)
+                .OrderByDescending(x => x.CreatedAt)
+                .Skip(skipOffset)
+                .Take(10)
                 .ToListAsync(cancellationToken);
         }
     }

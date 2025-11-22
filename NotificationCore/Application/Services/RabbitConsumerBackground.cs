@@ -6,6 +6,8 @@ using NotificationCore.Abstractions.Commands;
 using NotificationCore.Abstractions.Consumer;
 using NotificationCore.Application.Commands.AddNotification;
 using NotificationCore.Application.Commands.Mailers.SendVerifyTokenMail;
+using NotificationCore.Application.Commands.Statistic.AddLike;
+using NotificationCore.Application.Commands.Statistic.AddWatcher;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
@@ -40,7 +42,9 @@ namespace NotificationCore.Application.Services
 
             await _consumer.ConsumeMessageWithExchange<AddNotificationCommand>(_connection, "AddNewNotificationEvent", "notificationExchange", "notification.addnew", stoppingToken);
             await _consumer.ConsumeMessage<SendVerifyTokenMailCommand>(_connection, "SendMailTokenVerifyEvent", stoppingToken);
-           
+            await _consumer.ConsumeMessage<AddLikeCommand>(_connection, "AddLikeEvent", stoppingToken);
+            await _consumer.ConsumeMessage<AddWatcherCommand>(_connection, "AddWatcherEvent", stoppingToken);
+
             var tcs = new TaskCompletionSource();
             using (stoppingToken.Register(() => tcs.TrySetResult()))
             {
@@ -53,27 +57,6 @@ namespace NotificationCore.Application.Services
             _consumer.Dispose();
             _connection.Dispose();
             base.Dispose();
-        }
-
-        private Type? CommandTypeFactory(string? routingKey)
-        {
-            return routingKey switch
-            {
-                "CreateAccountMailerEvent" => typeof(AddNotificationCommand),
-                _ => null
-            };
-        }
-
-        private ICommand CommandFactory(string commandName)
-        {
-            switch(commandName)
-            {
-                case "CreateAccountMailerEvent":
-                    return new AddNotificationCommand();
-                default:
-                    return null;
-                        
-            }
         }
     }
 }
