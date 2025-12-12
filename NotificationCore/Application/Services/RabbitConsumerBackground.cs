@@ -1,23 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Update;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using NotificationCore.Abstractions.Commands;
+﻿using Microsoft.Extensions.Hosting;
 using NotificationCore.Abstractions.Consumer;
 using NotificationCore.Application.Commands.AddNotification;
+using NotificationCore.Application.Commands.AddNotificationCache;
 using NotificationCore.Application.Commands.Mailers.SendVerifyTokenMail;
-using NotificationCore.Application.Commands.Statistic.AddLike;
 using NotificationCore.Application.Commands.Statistic.AddWatcher;
+using NotificationCore.Application.Commands.UpdateNotificationCache;
 using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading;
-using System.Threading.Channels;
-using System.Threading.Tasks;
 
 namespace NotificationCore.Application.Services
 {
@@ -42,8 +30,9 @@ namespace NotificationCore.Application.Services
 
             await _consumer.ConsumeMessageWithExchange<AddNotificationCommand>(_connection, "AddNewNotificationEvent", "notificationExchange", "notification.addnew", stoppingToken);
             await _consumer.ConsumeMessage<SendVerifyTokenMailCommand>(_connection, "SendMailTokenVerifyEvent", stoppingToken);
-            await _consumer.ConsumeMessage<AddLikeCommand>(_connection, "AddLikeEvent", stoppingToken);
             await _consumer.ConsumeMessage<AddWatcherCommand>(_connection, "AddWatcherEvent", stoppingToken);
+            await _consumer.ConsumeMessage<AddNotificationCacheCommand>(_connection, "AddNotificationCacheEvent", stoppingToken);
+            await _consumer.ConsumeMessage<UpdateNotificationCacheCommand>(_connection, "UpdateNotificationCacheEvent", stoppingToken);
 
             var tcs = new TaskCompletionSource();
             using (stoppingToken.Register(() => tcs.TrySetResult()))
