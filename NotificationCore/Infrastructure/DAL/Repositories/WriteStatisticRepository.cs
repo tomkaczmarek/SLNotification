@@ -17,12 +17,6 @@ namespace NotificationCore.Infrastructure.DAL.Repositories
             _context = context;
         }
 
-        public async Task AddLike(LikeStatistic likeStatistic, CancellationToken cancellationToken)
-        {
-            await _context.Likes.AddAsync(likeStatistic, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
-        }
-
         public async Task AddWatch(WatchStatistic watchStatistic, CancellationToken cancellationToken)
         {
             await _context.Watches.AddAsync(watchStatistic, cancellationToken);

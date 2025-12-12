@@ -5,11 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NotificationCore.Application.Commands.Statistic.AddLike
+namespace NotificationCore.Application.Commands.AddNotificationCache
 {
-    public class AddLikeCommand : ICommand
+    public class AddNotificationCacheCommand : ICommand
     {
         public Guid SourceId { get; set; }
-        public Guid TargetId { get; set; }    
+        public Guid? AvatarId { get; set; }
+        public string Name { get; set; }
     }
 }
