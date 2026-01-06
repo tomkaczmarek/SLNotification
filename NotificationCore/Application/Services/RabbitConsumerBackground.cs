@@ -1,7 +1,12 @@
 ﻿using Microsoft.Extensions.Hosting;
 using NotificationCore.Abstractions.Consumer;
+using NotificationCore.Application.Commands.AddActiveNotificationCount;
+using NotificationCore.Application.Commands.AddActiveNotificationCountNew;
 using NotificationCore.Application.Commands.AddNotification;
 using NotificationCore.Application.Commands.AddNotificationCache;
+using NotificationCore.Application.Commands.Events.AddNotificationEventMemberCache;
+using NotificationCore.Application.Commands.Events.NotifyMembersWhenNewAccept;
+using NotificationCore.Application.Commands.Events.PublishEventNotification;
 using NotificationCore.Application.Commands.Mailers.SendVerifyTokenMail;
 using NotificationCore.Application.Commands.Statistic.AddWatcher;
 using NotificationCore.Application.Commands.UpdateNotificationCache;
@@ -33,6 +38,11 @@ namespace NotificationCore.Application.Services
             await _consumer.ConsumeMessage<AddWatcherCommand>(_connection, "AddWatcherEvent", stoppingToken);
             await _consumer.ConsumeMessage<AddNotificationCacheCommand>(_connection, "AddNotificationCacheEvent", stoppingToken);
             await _consumer.ConsumeMessage<UpdateNotificationCacheCommand>(_connection, "UpdateNotificationCacheEvent", stoppingToken);
+            await _consumer.ConsumeMessage<AddNotificationEventMemberCacheCommand>(_connection, "EventsAddNotificationEventMemberCacheEvent", stoppingToken);
+            await _consumer.ConsumeMessage<PublishEventNotificationCommand>(_connection, "EventsPublishEventNotificationEvent", stoppingToken);
+            await _consumer.ConsumeMessage<AddActiveNotificationCountCommand>(_connection, "AddActiveNotificationCountEvent", stoppingToken);
+            await _consumer.ConsumeMessage<AddActiveNotificationCountNewCommand>(_connection, "AddActiveNotificationCountNewEvent", stoppingToken);
+            await _consumer.ConsumeMessage<NotifyMembersWhenNewAcceptCommand>(_connection, "EventsNotifyEventsMembersWhenNewMembersJoinEvent", stoppingToken);
 
             var tcs = new TaskCompletionSource();
             using (stoppingToken.Register(() => tcs.TrySetResult()))

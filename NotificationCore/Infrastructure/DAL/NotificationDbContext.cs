@@ -13,6 +13,8 @@ namespace NotificationCore.Infrastructure.DAL
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<WatchStatistic> Watches { get; set; }
         public DbSet<NotificationObjectCache> NotificationObjectCaches { get; set; }
+        public DbSet<NotificationEventMemberCache> NotificationEventMemberCaches { get; set; }
+        public DbSet<NotificationActiveCount> NotificationActiveCounts { get; set; }
 
         public NotificationDbContext(DbContextOptions<NotificationDbContext> options) : base(options)
         {
@@ -20,7 +22,7 @@ namespace NotificationCore.Infrastructure.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("forband.notify");
+            modelBuilder.HasDefaultSchema("notify");
             modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
         }
     }

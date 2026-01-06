@@ -28,5 +28,14 @@ namespace NotificationCore.Infrastructure.DAL.Repositories
                 .Take(10)
                 .ToListAsync(cancellationToken);
         }
+
+        public async Task<int> GetActiveNotificationsCount(Guid profileId, CancellationToken cancellationToken)
+        {
+            return await _context.NotificationActiveCounts
+                .AsNoTracking()
+                .Where(x => x.ProfileId == profileId)
+                .Select(x => x.ActiveNotificationCount)
+                .FirstOrDefaultAsync(cancellationToken);
+        }
     }
 }

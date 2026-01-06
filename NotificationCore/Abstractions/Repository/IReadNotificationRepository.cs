@@ -10,5 +10,6 @@ namespace NotificationCore.Abstractions.Repository
     public interface IReadNotificationRepository
     {
         Task<List<Notification>> GetActiveNotifications(Guid sourceId, int skipOffset, CancellationToken cancellationToken);
+        Task<int> GetActiveNotificationsCount(Guid profileId, CancellationToken cancellationToken);
     }
 }

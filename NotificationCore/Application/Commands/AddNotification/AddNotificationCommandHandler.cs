@@ -10,18 +10,18 @@ using System.Threading.Tasks;
 
 namespace NotificationCore.Application.Commands.AddNotification
 {
-    public class AddNotifactionHandler : ICommandHandler<AddNotificationCommand>
+    public class AddNotificationCommandHandler : ICommandHandler<AddNotificationCommand>
     {
         private IWriteNotificationRepository _notificationRepository;
 
-        public AddNotifactionHandler(IWriteNotificationRepository notificationRepository)
+        public AddNotificationCommandHandler(IWriteNotificationRepository notificationRepository)
         {
             _notificationRepository = notificationRepository;
         }
 
         public async Task<ApiResponse> HandleAsync(AddNotificationCommand command, CancellationToken cancellationToken)
         {
-            var notification = new Notification(command.RecipientId, command.Key, command.NoticationBody, command.IsActive);
+            var notification = new Notification(command.RecipientId, command.NotificationType, command.NoticationBody, command.IsActive);
 
             await _notificationRepository.Add(notification, cancellationToken);
 

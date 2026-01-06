@@ -21,7 +21,7 @@ namespace NotificationCore.Application.Commands.UpdateNotificationCache
 
         public async Task<ApiResponse> HandleAsync(UpdateNotificationCacheCommand command, CancellationToken cancellationToken)
         {
-            var cache = new NotificationObjectCache(command.SourceId, command.AvatarId, command.Name);
+            var cache = new NotificationObjectCache(command.SourceId, command.Name, command.DomainObjectType);
             await _notificationCacheRepository.Update(cache, cancellationToken);
             return new ApiResponse();
         }

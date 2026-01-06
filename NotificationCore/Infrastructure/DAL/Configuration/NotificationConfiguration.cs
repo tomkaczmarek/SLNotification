@@ -19,7 +19,7 @@ namespace NotificationCore.Infrastructure.DAL.Configuration
             builder.Property(x => x.Id).HasConversion(x => x.Value, y => new IntId(y)).ValueGeneratedOnAdd();
             builder.Property(x => x.IsActive).HasConversion(x => x.Value, y => new BoolField(y));
             builder.Property(x => x.RecipientId).HasConversion(x => x.Value, y => new GuidId(y));
-            builder.Property(x => x.Key).HasConversion(x => x.Value, y => new NotificationKey(y));
+            builder.Property(x => x.NotificationType).HasConversion<string>();
             builder.Property(x => x.NoticationBody).HasConversion(x => x.Value, y => new Body(y));
             builder.Property(x => x.CreatedAt).HasDefaultValueSql("NOW()");
         }

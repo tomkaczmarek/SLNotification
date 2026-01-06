@@ -1,4 +1,5 @@
 ﻿using NotificationCore.Abstractions.Commands;
+using NotificationCore.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace NotificationCore.Application.Commands.AddNotificationCache
     public class AddNotificationCacheCommand : ICommand
     {
         public Guid SourceId { get; set; }
-        public Guid? AvatarId { get; set; }
         public string Name { get; set; }
+        public DomainObjectsType DomainObjectType { get; set; }
     }
 }
