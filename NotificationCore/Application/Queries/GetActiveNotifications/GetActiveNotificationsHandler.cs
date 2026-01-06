@@ -2,6 +2,7 @@
 using NotificationCore.Abstractions.Repository;
 using NotificationCore.Abstractions.Response;
 using NotificationCore.Domain.Entities;
+using NotificationCore.Domain.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,13 @@ namespace NotificationCore.Application.Queries.GetActiveNotifications
     {
         private IReadNotificationRepository _repository;
         private IReadNotificationCacheRepository _cacheRepository;
+        private IWriteNotificationRepository _notificationRepository;
 
-        public GetActiveNotificationsHandler(IReadNotificationRepository repository, IReadNotificationCacheRepository cacheRepository)
+        public GetActiveNotificationsHandler(IReadNotificationRepository repository, IReadNotificationCacheRepository cacheRepository, IWriteNotificationRepository notificationRepository)
         {
             _repository = repository;
             _cacheRepository = cacheRepository;
+            _notificationRepository = notificationRepository;
         }
 
         public async Task<ApiResponse<List<GetActiveNotificationsResult>>> HandleAsync(GetActiveNotificationsQuery query, CancellationToken cancellationToken)
@@ -28,6 +31,9 @@ namespace NotificationCore.Application.Queries.GetActiveNotifications
 
             if(result.Count > 0)
             {
+                if (query.ActiveNotificationsCount > 0)
+                    await _notificationRepository.ResetNotificationsCount(query.RecipientId, cancellationToken);
+
                 Dictionary<int, NotificationPayload> payloadDict = result.ToDictionary(x => x.Id.Value, y => JsonSerializer.Deserialize<NotificationPayload>(y.NoticationBody));
                 List<NotificationPayload> payLoad = result.Select(x => JsonSerializer.Deserialize<NotificationPayload>(x.NoticationBody)).ToList();
                 List<Guid> sourcesId = payLoad.SelectMany(n => new Guid?[] { n.SourceId, n.DestinationId, n.CoordinatorId })
@@ -40,7 +46,7 @@ namespace NotificationCore.Application.Queries.GetActiveNotifications
 
                 if(cacheResult.Count > 0)
                 {
-                    var cacheToDictionary = cacheResult.ToDictionary(x => x.SourceId, y => y);
+                    var cacheToDictionary = cacheResult.Distinct().ToDictionary(x => x.SourceId, y => y);
 
                     List<GetActiveNotificationsResult> itemsResult = new List<GetActiveNotificationsResult>();
                     foreach (var r in result)
@@ -50,7 +56,7 @@ namespace NotificationCore.Application.Queries.GetActiveNotifications
                             Id = r.Id,
                             CreatedAt = r.CreatedAt,
                             IsActive = r.IsActive,
-                            Key = r.Key
+                            NotificationType = r.NotificationType
                         };
 
                         if(payloadDict.ContainsKey(r.Id.Value))
@@ -59,20 +65,20 @@ namespace NotificationCore.Application.Queries.GetActiveNotifications
 
                             if(cacheToDictionary.ContainsKey(payitem.SourceId.GetValueOrDefault()))
                             {
-                                payitem.SourceAvatarId = cacheToDictionary[payitem.SourceId.GetValueOrDefault()].AvatarId;
                                 payitem.SourceName = cacheToDictionary[payitem.SourceId.GetValueOrDefault()].Name;
+                                payitem.SourceDomainObjectsType = cacheToDictionary[payitem.SourceId.GetValueOrDefault()].DomainObjectsType;
                             }
 
                             if (cacheToDictionary.ContainsKey(payitem.CoordinatorId.GetValueOrDefault()))
                             {
-                                payitem.CoordinatorAvatarId = cacheToDictionary[payitem.CoordinatorId.GetValueOrDefault()].AvatarId;
                                 payitem.CoordinatorName = cacheToDictionary[payitem.CoordinatorId.GetValueOrDefault()].Name;
+                                payitem.CoordinatorDomainObjectsType = cacheToDictionary[payitem.CoordinatorId.GetValueOrDefault()].DomainObjectsType;
                             }
 
                             if (cacheToDictionary.ContainsKey(payitem.DestinationId.GetValueOrDefault()))
                             {
-                                payitem.DestinationAvatarId = cacheToDictionary[payitem.DestinationId.GetValueOrDefault()].AvatarId;
                                 payitem.DestinationName = cacheToDictionary[payitem.DestinationId.GetValueOrDefault()].Name;
+                                payitem.DestinationDomainObjectsType = cacheToDictionary[payitem.DestinationId.GetValueOrDefault()].DomainObjectsType;
                             }
                             item.NotificationPayload = payitem;
                         }

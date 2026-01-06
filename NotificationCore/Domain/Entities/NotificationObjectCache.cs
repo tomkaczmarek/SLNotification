@@ -10,14 +10,14 @@ namespace NotificationCore.Domain.Entities
     {
         public int Id { get; set; }
         public Guid SourceId { get; set; }
-        public Guid? AvatarId { get; set; }
         public string Name { get; set; }
+        public DomainObjectsType DomainObjectsType { get; set; }
 
-        public NotificationObjectCache(Guid sourceId, Guid? avatarId, string name)
+        public NotificationObjectCache(Guid sourceId, string name, DomainObjectsType domainObjectsType)
         {
             SourceId = sourceId;
-            AvatarId = avatarId;
             Name = name;
+            DomainObjectsType = domainObjectsType;
         }
     }
 }

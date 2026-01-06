@@ -11,5 +11,6 @@ namespace NotificationCore.Domain.Repository
     {
         Task Add(NotificationObjectCache notification, CancellationToken cancellationToken);
         Task Update(NotificationObjectCache notification, CancellationToken cancellationToken);
+        Task AddEventMemberCache(NotificationEventMemberCache eventMemberCache, CancellationToken cancellationToken);
     }
 }

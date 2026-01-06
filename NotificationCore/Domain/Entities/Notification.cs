@@ -11,17 +11,54 @@ namespace NotificationCore.Domain.Entities
     {
         public IntId Id { get; set; }
         public GuidId RecipientId { get; set; }
-        public NotificationKey Key { get; set; }
+        public NotificationTypes NotificationType { get; set; }
         public Body NoticationBody { get; set; }
         public BoolField IsActive { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        public Notification(GuidId recipientId, NotificationKey key, Body noticationBody, BoolField isActive)
+        public Notification(GuidId recipientId, NotificationTypes notificationType, Body noticationBody, BoolField isActive)
         {
             RecipientId = recipientId;
-            Key = key;
+            NotificationType = notificationType;
             NoticationBody = noticationBody;
             IsActive = isActive;
         }
+    }
+
+    public enum NotificationTypes
+    {
+        BandAcceptMembershipForMembersBand,
+        BandAcceptMembership,
+        BandInviteFromBand,
+        BandInviteFromUser,
+        BandRejectBandInvite,
+        BandRejectMemberInvite,
+        BandMemberInfoAcceptMembershipNotification,
+        BandMemberInfoRejectMemberInviteNotification,
+        AlbumInviteMemberToAlbum,
+        AlbumSourceAcceptInviteToAlbum,
+        AlbumMemberInfoAcceptBySourceNotification,
+        AlbumMemberInfoAcceptByProfileNotification,
+        AlbumMemberInfoRejectMemberInviteNotification,
+        AlbumProfileAcceptInviteToAlbum,
+        EventPublishEventNotification,
+        EventInviteMemberNotification,
+        EventMemberAcceptInviteNotification,
+        EventNotifyMembersWhenNewMemberAcceptInviteNotification
+    }
+
+    public enum DomainObjectsType
+    {
+        Artist,
+        Publisher,
+        School,
+        PublicOrganization,
+        RecordingStudio,
+        Follower,
+        Band,
+        Event,
+        Album,
+        FakeArtist,
+        Unknow = 99
     }
 }

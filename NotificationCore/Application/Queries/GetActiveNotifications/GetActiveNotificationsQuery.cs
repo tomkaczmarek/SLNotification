@@ -11,5 +11,6 @@ namespace NotificationCore.Application.Queries.GetActiveNotifications
     {
         public Guid RecipientId { get; set; }
         public int SkipOffset { get; set; }
+        public int ActiveNotificationsCount { get; set; }
     }
 }

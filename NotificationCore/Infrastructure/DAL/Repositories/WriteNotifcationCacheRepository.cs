@@ -24,13 +24,18 @@ namespace NotificationCore.Infrastructure.DAL.Repositories
             await _notificationDbContext.SaveChangesAsync(cancellationToken);
         }
 
+        public async Task AddEventMemberCache(NotificationEventMemberCache eventMemberCache, CancellationToken cancellationToken)
+        {
+            await _notificationDbContext.NotificationEventMemberCaches.AddAsync(eventMemberCache, cancellationToken);
+            await _notificationDbContext.SaveChangesAsync(cancellationToken);
+        }
+
         public async Task Update(NotificationObjectCache notification, CancellationToken cancellationToken)
         {
             await _notificationDbContext.NotificationObjectCaches
                 .Where(x => x.SourceId == notification.SourceId)
                 .ExecuteUpdateAsync(
                 x => x
-                .SetProperty(x => x.AvatarId, y => notification.AvatarId)
                 .SetProperty(x=>x.Name, y=>notification.Name)
                 , cancellationToken);
         }

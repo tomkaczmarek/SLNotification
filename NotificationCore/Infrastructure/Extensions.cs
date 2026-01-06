@@ -4,10 +4,12 @@ using Microsoft.Extensions.DependencyInjection;
 using NotificationCore.Abstractions.Commands;
 using NotificationCore.Abstractions.Queries;
 using NotificationCore.Abstractions.Repository;
+using NotificationCore.Abstractions.Works;
 using NotificationCore.Application;
 using NotificationCore.Domain.Repository;
 using NotificationCore.Infrastructure.DAL;
 using NotificationCore.Infrastructure.DAL.Repositories;
+using NotificationCore.Infrastructure.DAL.Works;
 using NotificationCore.Infrastructure.Dispatchers;
 using NotificationCore.Infrastructure.Mailer;
 using System;
@@ -22,6 +24,7 @@ namespace NotificationCore.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddMailer();
             services.AddCommands();
             services.AddScoped<ICommandDispatcher, CommandDispatcher>();

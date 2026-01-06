@@ -10,5 +10,6 @@ namespace NotificationCore.Abstractions.Repository
     public interface IReadNotificationCacheRepository
     {
         Task<List<NotificationObjectCache>> GetFromCache(List<Guid> sourcesIds, CancellationToken cancellationToken);
+        Task<List<NotificationEventMemberCache>> GetEventMemberFromCache(Guid eventId, Guid? excludedSourceId, CancellationToken cancellationToken);
     }
 }
