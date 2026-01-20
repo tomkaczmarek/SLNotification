@@ -35,6 +35,8 @@ namespace NotificationCore.Domain.Entities
         BandRejectMemberInvite,
         BandMemberInfoAcceptMembershipNotification,
         BandMemberInfoRejectMemberInviteNotification,
+        BandCreateNewInfo,
+        BandYouJoinToInfo,
         AlbumInviteMemberToAlbum,
         AlbumSourceAcceptInviteToAlbum,
         AlbumMemberInfoAcceptBySourceNotification,
