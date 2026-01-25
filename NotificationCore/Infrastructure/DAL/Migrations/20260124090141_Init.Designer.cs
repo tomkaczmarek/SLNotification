@@ -12,15 +12,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace NotificationCore.Infrastructure.DAL.Migrations
 {
     [DbContext(typeof(NotificationDbContext))]
-    [Migration("20260104224442_UpdateTabel2")]
-    partial class UpdateTabel2
+    [Migration("20260124090141_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("forband.notify")
+                .HasDefaultSchema("notify")
                 .HasAnnotation("ProductVersion", "9.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -59,7 +59,7 @@ namespace NotificationCore.Infrastructure.DAL.Migrations
 
                     b.HasIndex("RecipientId");
 
-                    b.ToTable("Notifications", "forband.notify");
+                    b.ToTable("Notifications", "notify");
                 });
 
             modelBuilder.Entity("NotificationCore.Domain.Entities.NotificationActiveCount", b =>
@@ -81,7 +81,7 @@ namespace NotificationCore.Infrastructure.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("NotificationActiveCounts", "forband.notify");
+                    b.ToTable("NotificationActiveCounts", "notify");
                 });
 
             modelBuilder.Entity("NotificationCore.Domain.Entities.NotificationEventMemberCache", b =>
@@ -92,14 +92,17 @@ namespace NotificationCore.Infrastructure.DAL.Migrations
                     b.Property<Guid>("ProfileId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("SourceId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("NOW()");
 
-                    b.HasKey("EventId", "ProfileId");
+                    b.HasKey("EventId", "ProfileId", "SourceId");
 
-                    b.ToTable("NotificationEventMemberCaches", "forband.notify");
+                    b.ToTable("NotificationEventMemberCaches", "notify");
                 });
 
             modelBuilder.Entity("NotificationCore.Domain.Entities.NotificationObjectCache", b =>
@@ -110,6 +113,10 @@ namespace NotificationCore.Infrastructure.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("DomainObjectsType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -119,7 +126,7 @@ namespace NotificationCore.Infrastructure.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("NotificationObjectCaches", "forband.notify");
+                    b.ToTable("NotificationObjectCaches", "notify");
                 });
 
             modelBuilder.Entity("NotificationCore.Domain.Entities.WatchStatistic", b =>

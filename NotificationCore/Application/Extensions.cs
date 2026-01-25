@@ -6,6 +6,7 @@ using NotificationCore.Application.Commands.AddActiveNotificationCount;
 using NotificationCore.Application.Commands.AddActiveNotificationCountNew;
 using NotificationCore.Application.Commands.AddNotification;
 using NotificationCore.Application.Commands.AddNotificationCache;
+using NotificationCore.Application.Commands.Configuration.DeleteTables;
 using NotificationCore.Application.Commands.Events.AddNotificationEventMemberCache;
 using NotificationCore.Application.Commands.Events.NotifyMembersWhenNewAccept;
 using NotificationCore.Application.Commands.Events.PublishEventNotification;
@@ -40,6 +41,7 @@ namespace NotificationCore.Application
             services.AddScoped<IQueryHandler<GetActiveNotificationsCountQuery, GetActiveNotificationsCountQueryResult>, GetActiveNotificationsCountQueryHandler>();
             services.AddScoped<ICommandHandler<AddActiveNotificationCountNewCommand>, AddActiveNotificationCountNewCommandHandler>();
             services.AddScoped<ICommandHandler<NotifyMembersWhenNewAcceptCommand>, NotifyMembersWhenNewAcceptCommandHandler>();
+            services.AddScoped<ICommandHandler<DeleteTablesCommand>, DeleteTablesCommandHandler>();
             return services;
         }
     }
