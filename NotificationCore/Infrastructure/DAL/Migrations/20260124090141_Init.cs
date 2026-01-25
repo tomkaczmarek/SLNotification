@@ -13,35 +13,67 @@ namespace NotificationCore.Infrastructure.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "statistic");
+                name: "notify");
 
             migrationBuilder.EnsureSchema(
-                name: "forband.notify");
+                name: "statistic");
 
             migrationBuilder.CreateTable(
-                name: "Likes",
-                schema: "statistic",
+                name: "NotificationActiveCounts",
+                schema: "notify",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    SourceId = table.Column<Guid>(type: "uuid", nullable: false),
-                    TargetId = table.Column<Guid>(type: "uuid", nullable: false)
+                    ProfileId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ActiveNotificationCount = table.Column<int>(type: "integer", nullable: false),
+                    UpdateAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Likes", x => x.Id);
+                    table.PrimaryKey("PK_NotificationActiveCounts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NotificationEventMemberCaches",
+                schema: "notify",
+                columns: table => new
+                {
+                    EventId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ProfileId = table.Column<Guid>(type: "uuid", nullable: false),
+                    SourceId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NotificationEventMemberCaches", x => new { x.EventId, x.ProfileId, x.SourceId });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NotificationObjectCaches",
+                schema: "notify",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    SourceId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    DomainObjectsType = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NotificationObjectCaches", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Notifications",
-                schema: "forband.notify",
+                schema: "notify",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     RecipientId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Key = table.Column<string>(type: "text", nullable: false),
+                    NotificationType = table.Column<string>(type: "text", nullable: false),
                     NoticationBody = table.Column<string>(type: "text", nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()")
@@ -68,13 +100,13 @@ namespace NotificationCore.Infrastructure.DAL.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Notifications_Id",
-                schema: "forband.notify",
+                schema: "notify",
                 table: "Notifications",
                 column: "Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Notifications_RecipientId",
-                schema: "forband.notify",
+                schema: "notify",
                 table: "Notifications",
                 column: "RecipientId");
         }
@@ -83,12 +115,20 @@ namespace NotificationCore.Infrastructure.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Likes",
-                schema: "statistic");
+                name: "NotificationActiveCounts",
+                schema: "notify");
+
+            migrationBuilder.DropTable(
+                name: "NotificationEventMemberCaches",
+                schema: "notify");
+
+            migrationBuilder.DropTable(
+                name: "NotificationObjectCaches",
+                schema: "notify");
 
             migrationBuilder.DropTable(
                 name: "Notifications",
-                schema: "forband.notify");
+                schema: "notify");
 
             migrationBuilder.DropTable(
                 name: "Watches",
