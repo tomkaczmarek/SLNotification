@@ -35,7 +35,7 @@ namespace NotificationCore.Application.Services
 
             await _consumer.ConsumeMessageWithExchange<AddNotificationCommand>(_connection, "AddNewNotificationEvent", "notificationExchange", "notification.addnew", stoppingToken);
             await _consumer.ConsumeMessage<SendVerifyTokenMailCommand>(_connection, "SendMailTokenVerifyEvent", stoppingToken);
-            await _consumer.ConsumeMessage<AddWatcherCommand>(_connection, "AddWatcherEvent", stoppingToken);
+            await _consumer.ConsumeMessageWithExchange<AddWatcherCommand>(_connection, "AddWatcherEvent", "watchersExchange", "notification.watcher.addnew", stoppingToken);
             await _consumer.ConsumeMessage<AddNotificationCacheCommand>(_connection, "AddNotificationCacheEvent", stoppingToken);
             await _consumer.ConsumeMessage<UpdateNotificationCacheCommand>(_connection, "UpdateNotificationCacheEvent", stoppingToken);
             await _consumer.ConsumeMessage<AddNotificationEventMemberCacheCommand>(_connection, "EventsAddNotificationEventMemberCacheEvent", stoppingToken);

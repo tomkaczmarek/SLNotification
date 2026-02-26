@@ -12,6 +12,7 @@ using NotificationCore.Application.Commands.Events.NotifyMembersWhenNewAccept;
 using NotificationCore.Application.Commands.Events.PublishEventNotification;
 using NotificationCore.Application.Commands.Mailers.SendVerifyTokenMail;
 using NotificationCore.Application.Commands.Statistic.AddWatcher;
+using NotificationCore.Application.Commands.Statistic.DeleteWatcher;
 using NotificationCore.Application.Commands.UpdateNotificationCache;
 using NotificationCore.Application.Queries.GetActiveNotifications;
 using NotificationCore.Application.Queries.GetActiveNotificationsCount;
@@ -31,7 +32,7 @@ namespace NotificationCore.Application
             services.AddSingleton<IMessageConsumer, RabbitMqConsumer>();
             services.AddScoped<ICommandHandler<AddNotificationCommand>, AddNotificationCommandHandler>();
             services.AddScoped<ICommandHandler<SendVerifyTokenMailCommand>, SendVerifyTokenMailHandler>();
-            services.AddScoped<ICommandHandler<AddWatcherCommand>, AddWatcherHandler>();
+            services.AddScoped<ICommandHandler<AddWatcherCommand>, AddWatcherCommandHandler>();
             services.AddScoped<ICommandHandler<AddNotificationCacheCommand>, AddNotificationCacheCommandHandler>();
             services.AddScoped<ICommandHandler<UpdateNotificationCacheCommand>, UpdateNotificationCacheCommandHandler>();
             services.AddScoped<IQueryHandler<GetActiveNotificationsQuery, List<GetActiveNotificationsResult>>, GetActiveNotificationsHandler>();
@@ -42,6 +43,7 @@ namespace NotificationCore.Application
             services.AddScoped<ICommandHandler<AddActiveNotificationCountNewCommand>, AddActiveNotificationCountNewCommandHandler>();
             services.AddScoped<ICommandHandler<NotifyMembersWhenNewAcceptCommand>, NotifyMembersWhenNewAcceptCommandHandler>();
             services.AddScoped<ICommandHandler<DeleteTablesCommand>, DeleteTablesCommandHandler>();
+            services.AddScoped<ICommandHandler<DeleteWatcherCommand>, DeleteWatcherCommandHandler>();
             return services;
         }
     }

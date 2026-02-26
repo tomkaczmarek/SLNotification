@@ -32,7 +32,7 @@ namespace NotificationCore.Application.Commands.Mailers.SendVerifyTokenMail
                         <html>
                           <body style=""font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;"">
                             <div style=""max-width: 600px; margin: auto; background-color: #eeeeee; padding: 30px; border-radius: 4px;"">
-                              <h2 style=""text-align: center; color: #333;"">Soundlink</h2>
+                              <h2 style=""text-align: center; color: #333;"">Lookstade</h2>
                               <p style=""text-align: center; font-size: 18px; color: #555;"">Aktywuj konto</p>
                               <p style=""text-align: center; margin-top: 30px;"">
                                 <a href=""https://localhost:7127/Authentication/confirm?token={token}"" 

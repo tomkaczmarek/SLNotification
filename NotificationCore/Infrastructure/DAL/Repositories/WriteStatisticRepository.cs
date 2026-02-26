@@ -1,4 +1,5 @@
-﻿using NotificationCore.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using NotificationCore.Domain.Entities;
 using NotificationCore.Domain.Repository;
 using System;
 using System.Collections.Generic;
@@ -17,10 +18,17 @@ namespace NotificationCore.Infrastructure.DAL.Repositories
             _context = context;
         }
 
-        public async Task AddWatch(WatchStatistic watchStatistic, CancellationToken cancellationToken)
+        public async Task AddWatcher(Watcher watchStatistic, CancellationToken cancellationToken)
         {
             await _context.Watches.AddAsync(watchStatistic, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task DeleteWatcher(Watcher watchStatistic, CancellationToken cancellationToken)
+        {
+            await _context.Watches
+                .Where(x => x.SourceId == watchStatistic.SourceId && x.TargetId == watchStatistic.TargetId)
+                .ExecuteDeleteAsync(cancellationToken);
         }
     }
 }
