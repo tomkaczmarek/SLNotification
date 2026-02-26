@@ -11,7 +11,7 @@ namespace NotificationCore.Infrastructure.DAL
     public class NotificationDbContext : DbContext
     {
         public DbSet<Notification> Notifications { get; set; }
-        public DbSet<WatchStatistic> Watches { get; set; }
+        public DbSet<Watcher> Watches { get; set; }
         public DbSet<NotificationObjectCache> NotificationObjectCaches { get; set; }
         public DbSet<NotificationEventMemberCache> NotificationEventMemberCaches { get; set; }
         public DbSet<NotificationActiveCount> NotificationActiveCounts { get; set; }

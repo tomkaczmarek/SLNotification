@@ -10,18 +10,18 @@ using System.Threading.Tasks;
 
 namespace NotificationCore.Application.Commands.Statistic.AddWatcher
 {
-    public class AddWatcherHandler : ICommandHandler<AddWatcherCommand>
+    public class AddWatcherCommandHandler : ICommandHandler<AddWatcherCommand>
     {
         private IWriteStatisticRepository repository;
 
-        public AddWatcherHandler(IWriteStatisticRepository repository)
+        public AddWatcherCommandHandler(IWriteStatisticRepository repository)
         {
             this.repository = repository;
         }
         public async Task<ApiResponse> HandleAsync(AddWatcherCommand command, CancellationToken cancellationToken)
         {
-            var watcher = new WatchStatistic(command.SourceId, command.TargetId);
-            await this.repository.AddWatch(watcher, cancellationToken);
+            var watcher = new Watcher(command.SourceId, command.TargetId, command.SourceDomainObject, command.TargetDomainObject);
+            await this.repository.AddWatcher(watcher, cancellationToken);
             return new ApiResponse();
         }
     }

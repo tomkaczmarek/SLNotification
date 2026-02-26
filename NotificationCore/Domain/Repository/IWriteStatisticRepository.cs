@@ -9,6 +9,7 @@ namespace NotificationCore.Domain.Repository
 {
     public interface IWriteStatisticRepository
     {
-        Task AddWatch(WatchStatistic watchStatistic, CancellationToken cancellationToken);
+        Task AddWatcher(Watcher watchStatistic, CancellationToken cancellationToken);
+        Task DeleteWatcher(Watcher watchStatistic, CancellationToken cancellationToken);
     }
 }
